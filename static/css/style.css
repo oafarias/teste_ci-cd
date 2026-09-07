@@ -53,10 +53,10 @@ h1 {
     font-weight: bold;
 }
 
-.azure { background: #0078D4; color: white; }
-.docker { background: #2496ED; color: white; }
-.github { background: #181717; color: white; }
-.caddy { background: #00add8; color: white; }
+.azure { background: #58a6ff; color: white; }
+.docker { background: #58a6ff; color: white; }
+.github { background: #58a6ff; color: white; }
+.caddy { background: #58a6ff; color: white; }
 
 .cyber-btn {
     background: transparent;
