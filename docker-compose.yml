@@ -1,0 +1,7 @@
+services:
+    web:
+        build: .
+        #Mapeia a porta 80 da VM para a 5000 do container
+        ports:
+          - "80:5000"
+        restart: always

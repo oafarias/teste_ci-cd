@@ -1,0 +1,37 @@
+name: Deploy to Azure VM
+
+on:
+    push:
+        branches: [ main ]
+    
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Deploy via SSH
+            uses: appleboy/ssh-action@master
+            with:
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USER }}
+                key: ${{ secrets.KEY }}
+                port: 22
+                script: |
+                    # 1. [ ] Garante que a pasta existe e entra nela
+                    mkdir -p ~/app
+                    cd ~/app
+
+                    # 2. [ ] Limpeza brutal (Mata qualquer container antigo rodando)
+                    docker rm -f $(docker ps -aq) || true
+                    
+                    # 3. [ ] LÓGICA DE OURO: Clona na 1ª vez, Atualiza nas próximas
+                    if [ ! -d ".git" ]; then
+                        echo "Clonando repositorio pela primeira vez..."
+                        git clone https://github.com/oafarias/teste_ci-cd .
+                    else
+                        echo "Atualizando repositorio existente..."
+                        git pull origin main
+                    fi
+
+                    # 4. [ ] Sobe a nova versão
+                    docker compose down
+                    docker compose up -d --build
