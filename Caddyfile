@@ -1,0 +1,3 @@
+meusite.com, www.aaleff.me {
+    reverse_proxy web:5000
+}
