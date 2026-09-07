@@ -1,24 +1,21 @@
 services:
     web:
         build: .
-        # Retiramos as 'ports' da VM.
-        #ports:
-        #  - "80:5000"
         restart: always
     
     caddy:
         image: caddy:latest
         restart: always
     
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - web
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - ./Caddyfile:/etc/caddy/Caddyfile
+          - caddy_data:/data
+          - caddy_config:/config
+        depends_on:
+          - web
 
 volumes:
     caddy_data:
