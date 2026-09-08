@@ -35,13 +35,13 @@ h1 {
 #typewriter {
     min-height: 24px;
     color: #8b949e;
-    margin-bottom: 2rem;
 }
 
 .badges {
     display: flex;
     gap: 10px;
     justify-content: center;
+    margin-top: 1rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
 }
