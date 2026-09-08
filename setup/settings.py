@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 import environ
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
@@ -32,10 +33,14 @@ if VAULT_URL:
     # Puxa do cofre via Identidade Gerenciada
     SECRET_KEY = client.get_secret("SECRET-KEY").value
     DEBUG = client.get_secret("DEBUG").value == 'True'
+    os.environ['DATABASE_URL'] = client.get_secret("DATABASE-URL").value
 else:
     # === MODO LOCAL (SEU PC) ===
     SECRET_KEY = env('SECRET_KEY')
     DEBUG = env.bool('DEBUG', default=True)
+    os.environ['DATABASE_URL'] = env('DATABASE_URL')
+
+DATABASE_URL = env('DATABASE_URL')
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,10 +91,7 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL')
 }
 
 
