@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pipeline de Sucesso</title>
     <!-- O Flask usa o {{ url_for}} para achar arquivos na pasta static -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=1.1"> 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.1"> 
 </head>
 <body>
     <div class="container">
@@ -22,6 +23,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}?v=1.1"></script>
+    <script src="{% static 'js/script.css' %}?v=1.1"></script>
 </body>
 </html>
