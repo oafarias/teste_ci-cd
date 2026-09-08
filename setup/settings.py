@@ -11,19 +11,31 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Inicializa o leitor de ambiente
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+# Variável gatilho para a nuvem
+VAULT_URL = env('KEY_VAULT_URL', default=None)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zw-a@^x7*xhw5j=#ndxt1234^j$(%w*!c*pxv6eg*z3x%-nftk'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if VAULT_URL:
+    # === MODO PRODUÇÃO (AZURE) ===
+    credential = DefaultAzureCredential()
+    client = SecretClient(vault_url=VAULT_URL, credential=credential)
+    
+    # Puxa do cofre via Identidade Gerenciada
+    SECRET_KEY = client.get_secret("SECRET-KEY").value
+    DEBUG = client.get_secret("DEBUG").value == 'True'
+else:
+    # === MODO LOCAL (SEU PC) ===
+    SECRET_KEY = env('SECRET_KEY')
+    DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 

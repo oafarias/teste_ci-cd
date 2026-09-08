@@ -1,3 +1,5 @@
 Django
 django-environ
 gunicorn
+azure-identity
+azure-keyvault-secrets
