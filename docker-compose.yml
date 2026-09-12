@@ -10,7 +10,7 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      
+
   web:
       build: .
       restart: always
@@ -18,14 +18,16 @@ services:
         - .env
       depends_on:
         - db
-  
+
   caddy:
       image: caddy:latest
       restart: always
-  
+
       ports:
         - "80:80"
         - "443:443"
+      env_file:
+        - .env
       volumes:
         - ./Caddyfile:/etc/caddy/Caddyfile
         - caddy_data:/data
