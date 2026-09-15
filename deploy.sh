@@ -1,4 +1,5 @@
 #!/bin/bash
+
 VAULT_NAME="kv-django-alef"
 
 echo "🔐 Detectando ambiente..."

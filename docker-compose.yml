@@ -12,7 +12,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   web:
-      build: .
+      build:
+        context: .
+        target: prod
       restart: always
       env_file:
         - .env
