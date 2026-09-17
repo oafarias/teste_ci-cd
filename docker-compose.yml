@@ -30,6 +30,8 @@ services:
         - "443:443"
       env_file:
         - .env
+      environment:
+        - DOMAIN=${DOMAIN:-localhost}
       volumes:
         - ./Caddyfile:/etc/caddy/Caddyfile
         - caddy_data:/data
